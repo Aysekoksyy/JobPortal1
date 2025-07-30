@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = "Kayıt Başarılı";
+}
+
+<section class="section-box mt-100 mb-100">
+    <div class="container text-center">
+        <img src="~/assets/imgs/template/check-success.svg" alt="Başarılı" width="100" class="mb-30" />
+        <h2 class="text-success">Kayıt başarılı!</h2>
+        <p class="font-md mt-20">Giriş yaparak iş başvurusu yapmaya başlayabilirsiniz.</p>
+        <div class="mt-40">
+            <a class="btn btn-default" asp-controller="Pages" asp-action="PageSignin">Giriş Yap</a>
+            <a class="btn btn-border ml-15" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+        </div>
+    </div>
+</section>

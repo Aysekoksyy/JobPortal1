@@ -1,0 +1,814 @@
+@{
+  ViewData["Title"] = "Job Details";
+  Layout = "~/Views/Shared/_Layout.cshtml"; // veya null (tam sayfa HTML ise)
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="msapplication-TileColor" content="#0E0E0E">
+  <meta name="template-color" content="#0E0E0E">
+  <link rel="manifest" href="manifest.json" crossorigin>
+  <meta name="msapplication-config" content="browserconfig.xml">
+  <meta name="description" content="Index page">
+  <meta name="keywords" content="index, page">
+  <meta name="author" content="">
+  <link rel="shortcut icon" type="image/x-icon" href="~/assets/imgs/template/favicon.svg">
+  <link href="~/assets/css/style.css?version=4.1" rel="stylesheet">
+  <title>JobBox - Job Portal HTML Template </title>
+</head>
+
+<body>
+  <div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+      <div class="preloader-inner position-relative">
+        <div class="text-center"><img src="~/assets/imgs/template/loading.gif" alt="JobBox"></div>
+      </div>
+    </div>
+  </div>
+    <div class="modal fade" id="ModalApplyJobForm" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content apply-job-form">
+          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="modal-body pl-30 pr-30 pt-50">
+            <div class="text-center">
+              <p class="font-sm text-brand-2">İş Platformu </p>
+              <h2 class="mt-10 mb-5 text-brand-1 text-capitalize">Kariyerine bugün başla</h2>
+              <p class="font-sm text-muted mb-30">Lütfen bilgilerinizi doldurun ve işverene gönderin.</p>
+              </div>
+
+            <form class="login-register text-start mt-20 pb-30" action="#">
+              <div class="form-group">
+                <label class="form-label" for="input-1">AD SOYAD *</label>
+                <input class="form-control" id="input-1" type="text" required="" name="fullname" placeholder="Ayşe KÖKSOY">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="input-2">Email *</label>
+                <input class="form-control" id="input-2" type="email" required="" name="emailaddress" placeholder="Akoksoy8@icloud.com">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="number">İletişim Numarası *</label>
+                <input class="form-control" id="number" type="text" required="" name="phone" placeholder="0537 050 73 15">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="des">Açıklama</label>
+                <input class="form-control" id="des" type="text" required="" name="Description" placeholder="Açıklamanızı yazın...">
+            </div>
+              <div class="form-group">
+              <label class="form-label" for="file">Özgeçmiş Yükle</label>
+              <input class="form-control" id="file" name="resume" type="file">
+          </div>
+          <div class="login_footer form-group d-flex justify-content-between">
+              <label class="cb-container">
+                  <input type="checkbox"><span class="text-small">Şartlarımızı ve politikamızı kabul ediyorum</span><span class="checkmark"></span>
+              </label><a class="text-muted" href="page-contact.html">Daha fazla bilgi</a>
+          </div>
+          <div class="form-group">
+             <a asp-controller="Jobs" asp-action="BasvuruBasarili" class="btn btn-apply-now">Şimdi Başvur</a>
+
+          </div>
+          <div class="text-muted text-center">Yardıma mı ihtiyacınız var? <a href="page-contact.html">Bize Ulaşın</a></div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header class="header sticky-bar">
+      <div class="container">
+        <div class="main-header">
+          <div class="header-left">
+            <div class="header-logo"><a class="d-flex" ><img alt="JobBox" src="~/assets/imgs/template/jobhub-logo.svg"></a></div>
+          </div>
+          <div class="header-nav">
+            <nav class="nav-main-menu">
+              <ul class="main-menu">
+                <li class="has-children"><a class="active" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                  <ul class="sub-menu">
+                    <li><a asp-controller="Home" asp-action="Index">Ana Sayfa</a></li>
+                  </ul>
+                </li>
+                <li class="has-children"><a asp-controller="Jobs" asp-action="JobsGrid">İş Bul</a>
+                  <ul class="sub-menu">
+
+                    <li><a asp-controller="Jobs" asp-action="JobsList">İş Listesi </a></li>
+                    <li><a asp-controller="Jobs" asp-action="JobDetails">İş Detayları</a></li>
+                  </ul>
+                </li>
+                <li class="has-children"><a asp-controller="Companies" asp-action="CompaniesGrid">İşverenler</a>
+                  <ul class="sub-menu">
+                    <li><a asp-controller="Companies" asp-action="CompaniesGrid">İşverenler</a></li>
+                    <li><a asp-controller="Companies" asp-action="CompanyDetails">Şirket Detayları</a></li>
+                  </ul>
+                </li>
+                <li class="has-children"><a asp-controller="Candidates" asp-action="CandidatesGrid">Adaylar</a>
+                    <ul class="sub-menu">
+                      <li><a asp-controller="Candidates" asp-action="CandidatesGrid">Aday Listesi</a></li>
+                      <li><a asp-controller="Candidates" asp-action="CandidateDetails">Aday Detayları</a></li>
+                    </ul>
+                  </li>
+            <li class="has-children"><a asp-controller="Pages" asp-action="PageAbout">Sayfalar</a>
+              <ul class="sub-menu">
+                    <li><a asp-controller="Pages" asp-action="PageAbout">Hakkımızda</a></li>
+                    <li><a asp-controller="Pages" asp-action="PagePricing">Fiyatlandırma Planı</a></li>
+                    <li><a asp-controller="Pages" asp-action="PageContact">İletişim</a></li>
+                    <li><a asp-controller="Account" asp-action="Register">Kayıt Ol</a></li>
+                    <li><a asp-controller="Account" asp-action="Signin">Giriş Yap</a></li>
+                    <li><a asp-controller="Account" asp-action="ResetPassword">Şifre Sıfırlama</a></li>
+                    <li><a asp-controller="Pages" asp-action="ContentProtected">Korumalı İçerik</a></li>
+                    <li><a asp-controller="Pages" asp-action="Page404">404 Hata Sayfası</a></li>
+                </ul>
+            </li>
+            <li class="has-children"><a asp-controller="Blog" asp-action="BlogGrid">Blog</a>
+                    <ul class="sub-menu">
+                  <li><a asp-controller="Blog" asp-action="BlogGrid">Blog Listesi</a></li>
+                  <li><a asp-controller="Blog" asp-action="BlogGrid2">Blog Listesi 2</a></li>
+                  <li><a asp-controller="Blog" asp-action="BlogDetails">Tek Blog</a></li>
+              </ul>
+            </li>
+            <li class="dashboard"><a href="http://wp.alithemes.com/html/JobBox/demos/dashboard" target="_blank">Panel</a></li>
+            </ul>
+            </nav>
+            <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div>
+            </div>
+            <div class="block-signin">
+              <a class="text-link-bd-btom hover-up" asp-controller="Account" asp-action="Register">Kayıt Ol</a>
+              <a class="btn btn-default btn-shadow ml-40 hover-up" asp-controller="Account" asp-action="Signin">Giriş Yap</a>
+            </div>
+          </div>
+        </div>
+    </header>
+    <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
+      <div class="mobile-header-wrapper-inner">
+        <div class="mobile-header-content-area">
+          <div class="perfect-scroll">
+            <div class="mobile-search mobile-header-border mb-30">
+              <form action="#">
+                <input type="text" placeholder="Ara..."><i class="fi-rr-search"></i>
+              </form>
+            </div>
+            <div class="mobile-menu-wrap mobile-header-border">
+              <!-- mobile menu start-->
+              <nav>
+                <ul class="mobile-menu font-heading">
+                  <li class="has-children">
+                    <a class="active" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                    <ul class="sub-menu">
+                      <li><a asp-controller="Home" asp-action="Index">Ana Sayfa</a></li>
+                    </ul>
+                  </li>
+                  <li class="has-children"><a asp-controller="Jobs" asp-action="JobsGrid">İş Bul</a>
+                    <ul class="sub-menu">
+          
+                      <li><a asp-controller="Jobs" asp-action="JobsList">İş Listesi</a></li>
+                      <li><a asp-controller="Jobs" asp-action="JobDetails">İş Detayları</a></li>
+                    </ul>
+                  </li>
+                  <li class="has-children"><a asp-controller="Companies" asp-action="CompaniesGrid">İşverenler</a>
+                    <ul class="sub-menu">
+                      <li><a asp-controller="Companies" asp-action="CompaniesGrid">İşverenler</a></li>
+                      <li><a asp-controller="Companies" asp-action="CompanyDetails">Şirket Detayları</a></li>
+                    </ul>
+                  </li>
+                  <li class="has-children"><a asp-controller="Candidates" asp-action="CandidatesGrid">Adaylar</a>
+                    <ul class="sub-menu">
+                      <li><a asp-controller="Candidates" asp-action="CandidatesGrid">Aday Listesi</a></li>
+                      <li><a asp-controller="Candidates" asp-action="CandidateDetails">Aday Detayları</a></li>
+                    </ul>
+                  </li>
+                  <li class="has-children"></li><a asp-controller="Pages" asp-action="PageAbout">Sayfalar</a>
+                    <ul class="sub-menu">
+                      <li><a asp-controller="Pages" asp-action="PageAbout">Hakkımızda</a></li>
+                      <li><a asp-controller="Pages" asp-action="PagePricing">Fiyatlandırma Planı</a></li>
+                      <li><a asp-controller="Pages" asp-action="PageContact">İletişim</a></li>
+                      <li><a asp-controller="Account" asp-action="Register">Kayıt Ol</a></li>
+                      <li><a asp-controller="Account" asp-action="Signin">Giriş Yap</a></li>
+                      <li><a asp-controller="Account" asp-action="ResetPassword">Şifre Sıfırlama</a></li>
+                      <li><a asp-controller="Pages" asp-action="ContentProtected">Korumalı İçerik</a></li>
+                      <li><a asp-controller="Pages" asp-action="Page404">404 Hata Sayfası</a></li>
+                    </ul>
+                  </li>
+                  <li class="has-children"><a asp-controller="Blog" asp-action="BlogGrid">Blog</a>
+                    <ul class="sub-menu">
+                      <li><a asp-controller="Blog" asp-action="BlogGrid">Blog Listesi</a></li>
+                      <li><a asp-controller="Blog" asp-action="BlogGrid2">Blog Listesi 2</a></li>
+                      <li><a asp-controller="Blog" asp-action="BlogDetails">Tek Blog</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="mobile-account">
+              <h6 class="mb-10">Hesabınız</h6>
+              <ul class="mobile-menu font-heading">
+                <li><a asp-controller="Account" asp-action="Profile">Profil</a></li>
+                <li><a asp-controller="Account" asp-action="WorkPreferences">İş Tercihleri</a></li>
+                <li><a asp-controller="Account" asp-action="Settings">Hesap Ayarları</a></li>
+                <li><a asp-controller="Account" asp-action="GoPro">Pro Ol</a></li>
+                <li><a asp-controller="Pages" asp-action="PageSignin">Çıkış Yap</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
+      <div class="mobile-header-wrapper-inner">
+        <div class="mobile-header-content-area">
+          <div class="perfect-scroll">
+            <div class="mobile-search mobile-header-border mb-30">
+              <form action="#">
+                <input type="text" placeholder="Ara…"><i class="fi-rr-search"></i>
+              </form>
+            </div>
+            <div class="mobile-menu-wrap mobile-header-border">
+              <!-- mobile menu start-->
+              <nav>
+                <ul class="mobile-menu font-heading">
+                  <li class="has-children"><a class="active" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                    <ul class="sub-menu">
+                      <li><a asp-controller="Home" asp-action="Index">Ana Sayfa</a></li>
+                    </ul>
+                  </li>
+                  <li class="has-children"><a asp-controller="Jobs" asp-action="JobsGrid">İş Bul</a>
+                    <ul class="sub-menu">
+
+                      <li><a asp-controller="Jobs" asp-action="JobsList">İş Listesi </a></li>
+                      <li><a asp-controller="Jobs" asp-action="JobDetails">İş Detayları</a></li>
+                    </ul>
+                  </li>
+                  <li class="has-children"><a asp-controller="Companies" asp-action="CompaniesGrid">İşverenler</a>
+                    <ul class="sub-menu">
+                      <li><a asp-controller="Companies" asp-action="CompaniesGrid">İşverenler</a></li>
+                      <li><a asp-controller="Companies" asp-action="CompanyDetails">Şirket Detayları</a></li>
+                    </ul>
+                  </li>
+                  <li class="has-children"><a asp-controller="Candidates" asp-action="CandidatesGrid">Adaylar</a>
+                    <ul class="sub-menu">
+                      <li><a asp-controller="Candidates" asp-action="CandidatesGrid">Aday Listesi</a></li>
+                      <li><a asp-controller="Candidates" asp-action="CandidateDetails">Aday Detayları</a></li>
+                    </ul>
+                  </li>
+                  <li class="has-children"><a asp-controller="Pages" asp-action="PageAbout">Sayfalar</a>
+                    <ul class="sub-menu">
+                      <li><a asp-controller="Pages" asp-action="PageAbout">Hakkımızda</a></li>
+                      <li><a asp-controller="Pages" asp-action="PagePricing">Fiyatlandırma Planı</a></li>
+                      <li><a asp-controller="Pages" asp-action="PageContact">İletişim</a></li>
+                      <li><a asp-controller="Account" asp-action="Register">Kayıt Ol</a></li>
+                      <li><a asp-controller="Account" asp-action="Signin">Giriş Yap</a></li>
+                      <li><a asp-controller="Account" asp-action="ResetPassword">Şifre Sıfırlama</a></li>
+                      <li><a asp-controller="Pages" asp-action="ContentProtected">Korumalı İçerik</a></li>
+                      <li><a asp-controller="Pages" asp-action="Page404">404 Hata Sayfası</a></li>
+                    </ul>
+                  </li>
+                  <li class="has-children"><a asp-controller="Blog" asp-action="BlogGrid">Blog</a>
+                    <ul class="sub-menu">
+                      <li><a asp-controller="Blog" asp-action="BlogGrid">Blog Listesi</a></li>
+                      <li><a asp-controller="Blog" asp-action="BlogGrid2">Blog Listesi 2</a></li>
+                      <li><a asp-controller="Blog" asp-action="BlogDetails">Tek Blog</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="mobile-account">
+              <h6 class="mb-10">Hesabınız</h6>
+              <ul class="mobile-menu font-heading">
+                <li><a asp-controller="Account" asp-action="Profile">Profil</a></li>
+                <li><a asp-controller="Account" asp-action="WorkPreferences">İş Tercihleri</a></li>
+                <li><a asp-controller="Account" asp-action="Settings">Hesap Ayarları</a></li>
+                <li><a asp-controller="Account" asp-action="GoPro">Pro Ol</a></li>
+                <li><a asp-controller="Account" asp-action="SignOut">Çıkış Yap</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <main class="main">
+    <section class="section-box-2">
+      <div class="container">
+        <div class="banner-hero banner-image-single"><img src="~/assets/imgs/page/job-single/thumb.png" alt="JobBox">
+        </div>
+        <div class="row mt-10">
+          <div class="col-lg-8 col-md-12">
+            <h3>Senior Full Stack Mühendis, Creator Success Tam Zamanlı</h3>
+            <div class="mt-0 mb-15"><span class="card-briefcase">Tam Zamanlı</span><span class="card-time">3 dakika
+                önce</span></div>
+          </div>
+          <div class="col-lg-4 col-md-12 text-lg-end">
+            <div class="btn btn-apply-icon btn-apply btn-apply-big hover-up" data-bs-toggle="modal"
+              data-bs-target="#ModalApplyJobForm">Şimdi Başvur</div>
+          </div>
+        </div>
+        <div class="border-bottom pt-10 pb-10"></div>
+      </div>
+    </section>
+    <section class="section-box mt-50">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-12 col-sm-12 col-12">
+            <div class="job-overview">
+              <h5 class="border-bottom pb-15 mb-30">İstihdam Bilgileri</h5>
+
+              <div class="row">
+                <div class="col-md-6 d-flex">
+                  <div class="sidebar-icon-item"><img src="~/assets/imgs/page/job-single/industry.svg" alt="JobBox">
+                  </div>
+                  <div class="sidebar-text-info ml-10">
+                  <span class="text-description industry-icon mb-10">Sektör</span>
+                  <strong class="small-heading">Mekanik / Otomotiv, İnşaat / Yapı</strong>
+                </div>
+                </div>
+                <div class="col-md-6 d-flex mt-sm-15">
+                  <div class="sidebar-icon-item"><img src="~/assets/imgs/page/job-single/job-level.svg" alt="JobBox">
+                  </div>
+                  <div class="sidebar-text-info ml-10">
+                    <span class="text-description joblevel-icon mb-10">Pozisyon Seviyesi</span>
+                    <strong class="small-heading">Deneyimli (Yönetici Değil)</strong>
+                  </div>
+
+              </div>
+              <div class="row mt-25">
+                <div class="col-md-6 d-flex mt-sm-15">
+                  <div class="sidebar-icon-item"><img src="~/assets/imgs/page/job-single/salary.svg" alt="JobBox">
+                  </div>
+                  <div class="sidebar-text-info ml-10"><span
+                      class="text-description salary-icon mb-10">Maaş</span><strong class="small-heading">$800 -
+                      $1000</strong></div>
+                </div>
+                <div class="col-md-6 d-flex">
+                  <div class="sidebar-icon-item"><img src="~/assets/imgs/page/job-single/experience.svg" alt="JobBox">
+                  </div>
+                  <div class="sidebar-text-info ml-10"><span
+                      class="text-description experience-icon mb-10">Deneyim</span><strong class="small-heading">1 -
+                      2 yıl</strong></div>
+                </div>
+              </div>
+              <div class="row mt-25">
+                <div class="col-md-6 d-flex mt-sm-15">
+                  <div class="sidebar-icon-item"><img src="~/assets/imgs/page/job-single/job-type.svg" alt="JobBox">
+                  </div>
+                  <div class="sidebar-text-info ml-10"><span class="text-description jobtype-icon mb-10">İş
+                      tipi</span><strong class="small-heading">Kalıcı</strong></div>
+                </div>
+                <div class="col-md-6 d-flex mt-sm-15">
+                  <div class="sidebar-icon-item"><img src="~/assets/imgs/page/job-single/deadline.svg" alt="JobBox">
+                  </div>
+                  <div class="sidebar-text-info ml-10"><span class="text-description mb-10">Son teslim tarihi</span><strong
+                      class="small-heading">10/08/2025</strong></div>
+                </div>
+              </div>
+              <div class="row mt-25">
+                <div class="col-md-6 d-flex mt-sm-15">
+                  <div class="sidebar-icon-item"><img src="~/assets/imgs/page/job-single/updated.svg" alt="JobBox">
+                  </div>
+                  <div class="sidebar-text-info ml-10"><span
+                      class="text-description jobtype-icon mb-10">Güncellendi</span><strong
+                      class="small-heading">10/07/2025</strong></div>
+                </div>
+                <div class="col-md-6 d-flex mt-sm-15">
+                  <div class="sidebar-icon-item"><img src="~/assets/imgs/page/job-single/location.svg" alt="JobBox">
+                  </div>
+                  <div class="sidebar-text-info ml-10"><span class="text-description mb-10">Lokasyon</span><strong
+                      class="small-heading">Kayseri,Talas,Bahçelievler</strong></div>
+                </div>
+              </div>
+            </div>
+            <div class="content-single">
+              <h4>AStudio Ekibine Hoş Geldiniz</h4>
+                <p>AStudio Tasarım ekibi, dijitalleşen ve uzaktan çalışma düzeninin egemen olduğu bir dünyada üretken ve sağlıklı işletmeleri mümkün kılacak, güvenilir bir platform oluşturma vizyonuna sahiptir. Sürekli değişen iş modelleri ve normlar karşısında kurumsal dayanıklılığı sağlamayı hedeflemektedir.</p>
+
+                <p>İdeal aday, güçlü yaratıcı becerilere sahip olacak ve illüstratif tasarım ile tipografi konularına olan tutkusunu gösteren bir portföye sahip olacaktır. Bu aday, dijital ve baskı gibi çeşitli tasarım platformlarında çalışmış deneyime sahip olmalıdır.</p>
+
+                <h4>Temel Bilgi, Beceriler ve Deneyim</h4>
+                <ul>
+                  <li>Başından sonuna düşünülmüş ve son hâline getirilmiş müşteri deneyimlerini gösteren bir portföy</li>
+                  <li>Etkileşimli tasarım ve/veya görsel tasarım alanında 5+ yıl sektör deneyimi</li>
+                  <li>Üst düzey kişilerarası iletişim becerileri</li>
+                  <li>Mobil, iletişim ve iş birliği alanlarındaki trendlerin farkında olmak</li>
+                  <li>Yüksek kalitede tasarım prototipleri, mockup’lar ve diğer iletişim çıktıları oluşturma becerisi</li>
+                  <li>Çabaları doğru şekilde kapsamlayıp tahmin edebilme ve görevleri bağımsızca önceliklendirme yeteneği</li>
+                  <li>Tasarımlarıyla gerçek ürünlere etki etmiş olmak</li>
+                  <li>Tasarım (veya ilgili bir alanda) lisans derecesi ya da eşdeğer mesleki deneyim</li>
+                  <li>Figma, Photoshop, Illustrator ve Sketch gibi çeşitli tasarım araçlarında yetkinlik</li>
+                </ul>
+
+                <h4>Tercih Edilen Deneyimler</h4>
+                <ul>
+                  <li>Kurumsal yazılımlar/hizmetler için kullanıcı deneyimi tasarımı</li>
+                  <li>Oturmuş tasarım prensipleri ve etkileşim kalıplarını oluşturma ve uygulama</li>
+                  <li>Farklı coğrafyalarda çalışan ekiplerle tasarım anlayışını uyumlu hale getirme veya etkileme</li>
+                </ul>
+
+                <h4>Ürün Tasarımcısı</h4>
+                <p><strong>Ürün bilgisi:</strong> Atandığınız ürün alanının teknolojisi ve özelliklerini derinlemesine anlamak.</p>
+                <p><strong>Araştırma:</strong> İnsan ve iş etkisi yaratacak içgörüler sağlamak.</p>
+                <p><strong>Teslimatlar:</strong> Rekabet analizleri, kullanıcı akışları, düşük seviyeli çizimler, yüksek kaliteli mockup’lar, prototipler gibi çıktılar üreterek gerçek kullanıcı sorunlarını çözmek.</p>
+                <p><strong>İletişim:</strong> Kullanıcı deneyimi (UX) faaliyetlerinin sonuçlarını, ürün alanınız içindeki tasarım ekibi, disiplinler arası ortaklar ve diğer ilgili Superformula ekip üyeleriyle açık, sade ve anlaşılır bir dille paylaşmak.</p>
+
+            </div>
+            <div class="author-single"><span>AliThemes</span></div>
+            <div class="single-apply-jobs">
+              <div class="row align-items-center">
+                <div class="col-md-5"><a class="btn btn-default mr-15" href="#">Şimdi Başvur</a><a
+                    class="btn btn-border" href="#"> İşi kaydet</a></div>
+                <div class="col-md-7 text-lg-end social-share">
+                  <h6 class="color-text-paragraph-2 d-inline-block d-baseline mr-10">Bunu paylaş</h6><a
+                    class="mr-5 d-inline-block d-middle" href="#"><img alt="JobBox"
+                      src="~/assets/imgs/template/icons/share-fb.svg"></a><a class="mr-5 d-inline-block d-middle"
+                    href="#"><img alt="JobBox" src="~/assets/imgs/template/icons/share-tw.svg"></a><a
+                    class="mr-5 d-inline-block d-middle" href="#"><img alt="JobBox"
+                      src="~/assets/imgs/template/icons/share-red.svg"></a><a class="d-inline-block d-middle"
+                    href="#"><img alt="JobBox" src="~/assets/imgs/template/icons/share-whatsapp.svg"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-12 col-sm-12 col-12 pl-40 pl-lg-15 mt-lg-30">
+            <div class="sidebar-border">
+              <div class="sidebar-heading">
+                <div class="avatar-sidebar">
+                  <figure><img alt="JobBox" src="~/assets/imgs/page/job-single/avatar.png"></figure>
+                  <div class="sidebar-info"><span class="sidebar-company">AliThemes</span><span
+                      class="card-location">İstanbul,Beşiktaş</span><a class="link-underline mt-15" href="#">02 Open
+                      Jobs</a>
+                  </div>
+                </div>
+              </div>
+              <div class="sidebar-list-job">
+                <div class="box-map">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2970.3150609575905!2d-87.6235655!3d41.886080899999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e2ca8b34afe61%3A0x6caeb5f721ca846!2s205%20N%20Michigan%20Ave%20Suit%20810%2C%20Kayseri%2C%20IL%2060601%2C%20Hoa%20K%E1%BB%B3!5e0!3m2!1svi!2s!4v1658551322537!5m2!1svi!2s"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <ul class="ul-disc">
+                  <li>Kayseri,Talas,Bahçelievler</li>
+                  <li>Tel: (123) 456-7890</li>
+                  <li>Email: contact@abcd.com</li>
+                </ul>
+              </div>
+            </div>
+            <div class="sidebar-border">
+              <h6 class="f-18">Benzer işler</h6>
+              <div class="sidebar-list-job">
+                <ul>
+                  <li>
+                    <div class="card-list-4 wow animate__animated animate__fadeIn hover-up">
+                      <div class="image"><a href="job-details.html"><img src="~/assets/imgs/brands/brand-1.png"
+                            alt="JobBox"></a></div>
+                      <div class="info-text">
+                        <h5 class="font-md font-bold color-brand-1"><a href="job-details.html">UI / UX Tasarımcı
+                            Tam Zamanlı</a></h5>
+                        <div class="mt-0"><span class="card-briefcase">Tam Zamanlı</span><span
+                            class="card-time"><span>3</span><span> dakika önce</span></span></div>
+                        <div class="mt-5">
+                          <div class="row">
+                            <div class="col-6">
+                              <h6 class="card-price">$250<span>/saat</span></h6>
+                            </div>
+                            <div class="col-6 text-end"><span class="card-briefcase">İstanbul,Beşiktaş</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="card-list-4 wow animate__animated animate__fadeIn hover-up">
+                      <div class="image"><a href="job-details.html"><img src="~/assets/imgs/brands/brand-2.png"
+                            alt="JobBox"></a></div>
+                      <div class="info-text">
+                        <h5 class="font-md font-bold color-brand-1"><a href="job-details.html">Java Software
+                            Mühendis</a></h5>
+                        <div class="mt-0"><span class="card-briefcase">Tam Zamanlı</span><span
+                            class="card-time"><span>5</span><span> dakika önce</span></span></div>
+                        <div class="mt-5">
+                          <div class="row">
+                            <div class="col-6">
+                              <h6 class="card-price">$500<span>/saat</span></h6>
+                            </div>
+                            <div class="col-6 text-end"><span class="card-briefcase">İstanbul,Taksim</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="card-list-4 wow animate__animated animate__fadeIn hover-up">
+                      <div class="image"><a href="job-details.html"><img src="~/assets/imgs/brands/brand-3.png"
+                            alt="JobBox"></a></div>
+                      <div class="info-text">
+                        <h5 class="font-md font-bold color-brand-1"><a href="job-details.html">Frontend Yazılım
+                            Geliştirici</a>
+                        </h5>
+                        <div class="mt-0"><span class="card-briefcase">Tam Zamanlı</span><span
+                            class="card-time"><span>8</span><span> dakika önce</span></span></div>
+                        <div class="mt-5">
+                          <div class="row">
+                            <div class="col-6">
+                              <h6 class="card-price">$650<span>/saat</span></h6>
+                            </div>
+                            <div class="col-6 text-end"><span class="card-briefcase">Eskişehir</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="card-list-4 wow animate__animated animate__fadeIn hover-up">
+                      <div class="image"><a href="job-details.html"><img src="~/assets/imgs/brands/brand-4.png"
+                            alt="JobBox"></a></div>
+                      <div class="info-text">
+                        <h5 class="font-md font-bold color-brand-1"><a href="job-details.html">Cloud Mühendis</a></h5>
+                        <div class="mt-0"><span class="card-briefcase">Tam Zamanlı</span><span
+                            class="card-time"><span>12</span><span> dakika önce</span></span></div>
+                        <div class="mt-5">
+                          <div class="row">
+                            <div class="col-6">
+                              <h6 class="card-price">$380<span>/saat</span></h6>
+                            </div>
+                            <div class="col-6 text-end"><span class="card-briefcase">Karadağ</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+    
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section-box mt-50 mb-50">
+      <div class="container">
+        <div class="text-left">
+          <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp">Featured Jobs</h2>
+          <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">En son haberleri, güncellemeleri ve ipuçlarını alın</p>
+        </div>
+        <div class="mt-50">
+          <div class="box-swiper style-nav-top">
+            <div class="swiper-container swiper-group-4 swiper">
+              <div class="swiper-wrapper pb-10 pt-5">
+                <div class="swiper-slide">
+                  <div class="card-grid-2 hover-up">
+                    <div class="card-grid-2-image-left"><span class="flash"></span>
+                      <div class="image-box"><img src="~/assets/imgs/brands/brand-6.png" alt="JobBox"></div>
+                      <div class="right-info">
+                        <a class="name-job" asp-controller="Companies" asp-action="CompanyDetails">Quora JSC</a><span>
+                         <div class="location-small">İstanbul,Beşiktaş</span></div>
+                    </div>
+                    <div class="card-block-info">
+                      <h6><a href="job-details.html">Senior System Mühendis</a></h6>
+                      <div class="mt-5"><span class="card-briefcase">Yarı zamanlı</span><span class="card-time">5<span>
+                            dakika önce</span></span></div>
+                      <p class="font-sm color-text-paragraph mt-15">Bu pozisyon için görev ve sorumluluklarınızı detaylı
+                        bir şekilde açıklayın. İş tanımı, beklentiler ve aranan nitelikler hakkında bilgi verin.</p>
+
+                      <div class="mt-30"><a class="btn btn-grey-small mr-5" href="job-details.html">PHP</a><a
+                          class="btn btn-grey-small mr-5" href="job-details.html">Android </a>
+                      </div>
+                      <div class="card-2-bottom mt-30">
+                        <div class="row">
+                          <div class="col-lg-7 col-7"><span class="card-text-price">$800</span><span
+                              class="text-muted">/saat</span></div>
+                          <div class="col-lg-5 col-5 text-end">
+                            <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">
+                              Şimdi Başvur</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="card-grid-2 hover-up">
+                    <div class="card-grid-2-image-left"><span class="flash"></span>
+                      <div class="image-box"><img src="~/assets/imgs/brands/brand-4.png" alt="JobBox"></div>
+                      <div class="right-info"><a class="name-job" href="company-details.html">Dailymotion</a><span
+                          class="location-small">İstanbul,Beşiktaş</span></div>
+                    </div>
+                    <div class="card-block-info">
+                      <h6><a href="job-details.html">Frontend Yazılım Geliştirici</a></h6>
+                      <div class="mt-5"><span class="card-briefcase">Tam Zamanlı</span><span class="card-time">6<span>
+                            dakika önce</span></span></div>
+                      <p class="font-sm color-text-paragraph mt-15">Bu pozisyon için görev ve sorumluluklarınızı detaylı
+                        bir şekilde açıklayın. İş tanımı, beklentiler ve aranan nitelikler hakkında bilgi verin.</p>
+
+                      <div class="mt-30"><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Typescript</a><a
+                          class="btn btn-grey-small mr-5" href="jobs-grid.html">Java</a>
+                      </div>
+                      <div class="card-2-bottom mt-30">
+                        <div class="row">
+                          <div class="col-lg-7 col-7"><span class="card-text-price">$250</span><span
+                              class="text-muted">/saat</span></div>
+                          <div class="col-lg-5 col-5 text-end">
+                            <div class="btn btn-apply-now">
+                            <a asp-controller="Jobs" asp-action="BasvuruBasarili" class="btn btn-apply-now">Şimdi Başvur</a>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="card-grid-2 hover-up">
+                    <div class="card-grid-2-image-left"><span class="flash"></span>
+                      <div class="image-box"><img src="~/assets/imgs/brands/brand-8.png" alt="JobBox"></div>
+                      <div class="right-info"><a class="name-job" href="company-details.html">Periscope</a><span
+                          class="location-small">İstanbul,Beşiktaş</span></div>
+                    </div>
+                    <div class="card-block-info">
+                      <h6><a href="job-details.html">Lead Quality Control QA</a></h6>
+                      <div class="mt-5"><span class="card-briefcase">Tam Zamanlı</span><span class="card-time">6<span>
+                            dakika önce</span></span></div>
+                      <p class="font-sm color-text-paragraph mt-15">Bu pozisyon için görev ve sorumluluklarınızı detaylı
+                        bir şekilde açıklayın. İş tanımı, beklentiler ve aranan nitelikler hakkında bilgi verin.</p>
+
+                      <div class="mt-30"><a class="btn btn-grey-small mr-5" href="job-details.html">iOS</a><a
+                          class="btn btn-grey-small mr-5" href="job-details.html">Laravel</a><a
+                          class="btn btn-grey-small mr-5" href="job-details.html">Golang</a>
+                      </div>
+                      <div class="card-2-bottom mt-30">
+                        <div class="row">
+                          <div class="col-lg-7 col-7"><span class="card-text-price">$250</span><span
+                              class="text-muted">/saat</span></div>
+                          <div class="col-lg-5 col-5 text-end">
+                            <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">
+                              Şimdi Başvur</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="card-grid-2 hover-up">
+                    <div class="card-grid-2-image-left"><span class="flash"></span>
+                      <div class="image-box"><img src="~/assets/imgs/brands/brand-4.png" alt="JobBox"></div>
+                      <div class="right-info"><a class="name-job" href="company-details.html">Dailymotion</a><span
+                          class="location-small">İstanbul,Beşiktaş</span></div>
+                    </div>
+                    <div class="card-block-info">
+                      <h6><a href="job-details.html">Frontend Yazılım Geliştirici</a></h6>
+                      <div class="mt-5"><span class="card-briefcase">Tam Zamanlı</span><span class="card-time">6<span>
+                            dakika önce</span></span></div>
+                      <p class="font-sm color-text-paragraph mt-15">Bu pozisyon için görev ve sorumluluklarınızı detaylı
+                        bir şekilde açıklayın. İş tanımı, beklentiler ve aranan nitelikler hakkında bilgi verin.</p>
+                      <div class="mt-30"><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Typescript</a><a
+                          class="btn btn-grey-small mr-5" href="jobs-grid.html">Java</a>
+                      </div>
+                      <div class="card-2-bottom mt-30">
+                        <div class="row">
+                          <div class="col-lg-7 col-7"><span class="card-text-price">$250</span><span
+                              class="text-muted">/saat</span></div>
+                          <div class="col-lg-5 col-5 text-end">
+                            <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">
+                              Şimdi Başvur</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-button-next swiper-button-next-4"></div>
+            <div class="swiper-button-prev swiper-button-prev-4"></div>
+          </div>
+          <div class="text-center"><a class="btn btn-grey" href="#">Load more posts</a></div>
+        </div>
+      </div>
+    </section>
+    <section class="section-box mt-50 mb-20">
+      <div class="container">
+        <div class="box-newsletter">
+          <div class="row">
+            <div class="col-xl-3 col-12 text-center d-none d-xl-block">
+              <img src="~/assets/imgs/template/newsletter-left.png" alt="JobBox">
+            </div>
+            <div class="col-lg-12 col-xl-6 col-12">
+              <h2 class="text-md-newsletter text-center">Yeni içerikler düzenli olarak<br>güncellenmektedir</h2>
+              <div class="box-form-newsletter mt-40">
+                <form class="form-newsletter">
+                  <input class="input-newsletter" type="text" value="" placeholder="E-posta adresinizi girin">
+                  <button class="btn btn-default font-heading icon-send-letter">Abone Ol</button>
+                </form>
+              </div>
+            </div>
+            <div class="col-xl-3 col-12 text-center d-none d-xl-block">
+              <img src="~/assets/imgs/template/newsletter-right.png" alt="JobBox">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer mt-50">
+    <div class="container">
+      <div class="row">
+        <div class="footer-col-1 col-md-3 col-sm-12">
+          <a href="index.html"><img alt="JobBox" src="~/assets/imgs/template/jobhub-logo.svg"></a>
+          <div class="mt-20 mb-20 font-xs color-text-paragraph-2">
+            JobBox, tasarım topluluğunun kalbidir ve dünya genelindeki tasarımcılarla iş ilanlarını keşfetmek ve
+            bağlantı kurmak için en iyi kaynaktır.
+          </div>
+          <div class="footer-social">
+            <a class="icon-socials icon-facebook" href="#"></a>
+            <a class="icon-socials icon-twitter" href="#"></a>
+            <a class="icon-socials icon-linkedin" href="#"></a>
+          </div>
+        </div>
+
+        <div class="footer-col-2 col-md-2 col-xs-6">
+          <h6 class="mb-20">Kaynaklar</h6>
+          <ul class="menu-footer">
+            <li><a href="#">Hakkımızda</a></li>
+            <li><a href="#">Ekibimiz</a></li>
+            <li><a href="#">Ürünler</a></li>
+            <li><a href="#">İletişim</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col-3 col-md-2 col-xs-6">
+          <h6 class="mb-20">Topluluk</h6>
+          <ul class="menu-footer">
+            <li><a href="#">Özellikler</a></li>
+            <li><a href="#">Fiyatlandırma</a></li>
+            <li><a href="#">Kredi</a></li>
+            <li><a href="#">Sıkça Sorulan Sorular</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col-4 col-md-2 col-xs-6">
+          <h6 class="mb-20">Hızlı Erişim</h6>
+          <ul class="menu-footer">
+            <li><a href="#">iOS</a></li>
+            <li><a href="#">Android</a></li>
+            <li><a href="#">Microsoft</a></li>
+            <li><a href="#">Masaüstü</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col-5 col-md-2 col-xs-6">
+          <h6 class="mb-20">Diğer</h6>
+          <ul class="menu-footer">
+            <li><a href="#">Gizlilik</a></li>
+            <li><a href="#">Yardım</a></li>
+            <li><a href="#">Şartlar</a></li>
+            <li><a href="#">SSS</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col-6 col-md-3 col-sm-12">
+          <h6 class="mb-20">Uygulamayı İndir</h6>
+          <p class="color-text-paragraph-2 font-xs">
+            Uygulamalarımızı indirin ve ilk siparişinizde ekstra %15 indirim kazanın!
+          </p>
+          <div class="mt-15">
+            <a class="mr-5" href="#"><img src="~/assets/imgs/template/icons/app-store.png" alt="App Store"></a>
+            <a href="#"><img src="~/assets/imgs/template/icons/android.png" alt="Google Play"></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom mt-50">
+        <div class="row">
+          <div class="col-md-6">
+            <span class="font-xs color-text-paragraph">Telif Hakkı &copy; 2025. Tüm hakları saklıdır – JobBox</span>
+          </div>
+          <div class="col-md-6 text-md-end text-start">
+            <div class="footer-social">
+              <a class="font-xs color-text-paragraph" href="#">Gizlilik Politikası</a>
+              <a class="font-xs color-text-paragraph mr-30 ml-30" href="#">Kullanım Şartları</a>
+              <a class="font-xs color-text-paragraph" href="#">Güvenlik</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="~/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+  <script src="~/assets/js/vendor/jquery-3.6.0.min.js"></script>
+  <script src="~/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+  <script src="~/assets/js/vendor/bootstrap.bundle.min.js"></script>
+  <script src="~/assets/js/plugins/waypoints.js"></script>
+  <script src="~/assets/js/plugins/wow.js"></script>
+  <script src="~/assets/js/plugins/magnific-popup.js"></script>
+  <script src="~/assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="~/assets/js/plugins/select2.min.js"></script>
+  <script src="~/assets/js/plugins/isotope.js"></script>
+  <script src="~/assets/js/plugins/scrollup.js"></script>
+  <script src="~/assets/js/plugins/swiper-bundle.min.js"></script>
+  <script src="~/assets/js/main.js?v=4.1"></script>
+</body>
+
+</html>
